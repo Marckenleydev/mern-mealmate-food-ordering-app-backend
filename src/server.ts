@@ -3,7 +3,9 @@ import cors from "cors";
 import "dotenv/config"
 import mongoose from "mongoose";
 import morgan from "morgan";
+import {v2 as cloudinary} from "cloudinary";
 import myUserRoute from "./routes/MyUserRoute";
+import myRestaurantRoute from "./routes/MyRestaurantRoute";
 
 
 const app = express();
@@ -16,6 +18,7 @@ app.get("/health", async(req: express.Request, res: express.Response)=>{
 })
 
 app.use("/api/my/user", myUserRoute)
+app.use("/api/my/restaurant", myRestaurantRoute)
 
 
 
@@ -25,3 +28,10 @@ app.listen(7001, ()=>{
 
 mongoose.connect(process.env.MONGO_URI as string)
 .then(() => console.log("MongoDB Connected"))
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
