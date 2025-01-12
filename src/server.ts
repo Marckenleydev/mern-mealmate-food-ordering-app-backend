@@ -6,6 +6,7 @@ import morgan from "morgan";
 import {v2 as cloudinary} from "cloudinary";
 import myUserRoute from "./routes/MyUserRoute";
 import myRestaurantRoute from "./routes/MyRestaurantRoute";
+import restaurantRoute from "./routes/RestaurantRoute";
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.get("/health", async(req: express.Request, res: express.Response)=>{
 
 app.use("/api/my/user", myUserRoute)
 app.use("/api/my/restaurant", myRestaurantRoute)
+app.use("/api/restaurant", restaurantRoute)
 
 
 
