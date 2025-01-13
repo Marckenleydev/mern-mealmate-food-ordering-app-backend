@@ -1,4 +1,4 @@
-import { MenuItem } from "./../../../client/src/types";
+
 import mongoose, { InferSchemaType } from "mongoose";
 
 const menuItemsSchema = new mongoose.Schema({
