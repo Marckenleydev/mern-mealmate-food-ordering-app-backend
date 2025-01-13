@@ -1,26 +1,29 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config"
+
 import mongoose from "mongoose";
 import morgan from "morgan";
 import {v2 as cloudinary} from "cloudinary";
 import myUserRoute from "./routes/MyUserRoute";
 import myRestaurantRoute from "./routes/MyRestaurantRoute";
 import restaurantRoute from "./routes/RestaurantRoute";
+import orderRoute from "./routes/OrderRoute";
 
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+
 app.use(morgan(':method :url :status :response-time ms'));
 
-app.get("/health", async(req: express.Request, res: express.Response)=>{
-    res.send({message:"health OK!"}).json;
-})
+
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
+app.use(express.json());
 
 app.use("/api/my/user", myUserRoute)
 app.use("/api/my/restaurant", myRestaurantRoute)
 app.use("/api/restaurant", restaurantRoute)
+app.use("/api/order", orderRoute)
 
 
 
