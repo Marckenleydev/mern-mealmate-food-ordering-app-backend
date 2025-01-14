@@ -27,8 +27,8 @@ app.use("/api/order", orderRoute)
 
 
 
-app.listen(7001, ()=>{
-    console.log("Server running on port 7001");
+app.listen(7002, ()=>{
+    console.log("Server running on port 7002");
 })
 
 mongoose.connect(process.env.MONGO_URI as string)
