@@ -1,10 +1,32 @@
 
+
 import  cloudinary  from 'cloudinary';
 import { Request, Response } from "express";
 import Restaurant from "../models/restaurant";
 import mongoose from 'mongoose';
+import Order from '../models/order';
 
 
+
+const getMyRestaurantOrders=async(req: Request, res: Response)=>{
+    try {
+        const restaurant = await Restaurant.findOne({user: req.userId})
+        if(!restaurant){
+            res.status(404).json({ message: "Restaurant not found" });
+            return;
+        }
+        const orders = await Order.find({restaurant: restaurant._id})
+        .populate("restaurant")
+        .populate("user")
+
+        res.json(orders);
+
+    } catch (error) {
+        console.error(error);  // Log the error for debugging
+        res.status(500).json({message: "something went wrong"})
+    }
+
+}
 const createMyRestaurant = async(req: Request, res: Response)=>{
 
     try {
@@ -90,7 +112,35 @@ const updateMyRestaurant = async(req: Request, res: Response)=>{
         res.status(500).json({message: "something went wrong"})
     }
 }
-export default {createMyRestaurant,getMyRestaurant,updateMyRestaurant} ;
+
+
+const updateOrderStatus =async(req: Request, res: Response)=>{
+
+    try {
+        const {orderId} = req.params;
+        const {status} = req.body;
+
+        const order = await Order.findById(orderId);
+        if(!order){
+            res.status(404).json({ message: "Order not found" });
+            return ;
+        }
+        const restaurant = await Restaurant.findById(order.restaurant);
+        if(restaurant?.user?._id.toString() !== req.userId){
+            res.status(404).json({ message: "you are not authorize to update order" });
+            return ;
+        }
+
+        order.status = status;
+        await order.save();
+        res.status(200).json(order)
+    } catch (error) {
+        console.error(error);  // Log the error for debugging
+        res.status(500).json({message: "unable to update order status"})
+    }
+
+}
+export default {createMyRestaurant,getMyRestaurant,updateMyRestaurant,getMyRestaurantOrders, updateOrderStatus} ;
 
 
 const uploadImage= async (file:Express.Multer.File) => {
