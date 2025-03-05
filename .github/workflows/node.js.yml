@@ -34,6 +34,8 @@ jobs:
         touch .env
         echo "${{ secrets.PROD_ENV_FILE }}" >> .env
 
+    - run: pm2 start npm --name "backend-server" -- run dev
+
 
 
 
