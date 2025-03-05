@@ -30,7 +30,6 @@ jobs:
     - name: Install Stripe CLI
       run: npm install -g stripe
 
-
     - run: |
         touch .env
         echo "${{ secrets.PROD_ENV_FILE }}" >> .env
