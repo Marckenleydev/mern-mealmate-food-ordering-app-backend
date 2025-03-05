@@ -41,5 +41,5 @@ jobs:
           echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
           echo "STRIPE_ENDPOINT_SECRET=${{ secrets.STRIPE_ENDPOINT_SECRET }}" >> .env
 
-    - run: npm run dev
+
 
