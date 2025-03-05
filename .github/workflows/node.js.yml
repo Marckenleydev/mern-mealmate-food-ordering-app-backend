@@ -30,23 +30,11 @@ jobs:
     - name: Install Stripe CLI
       run: npm install -g stripe
 
-    - name: Create .env file
-      run: |
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
-          echo "AUTH0_AUDIENCE=${{ secrets.AUTH0_AUDIENCE }}" >> .env
-          echo "AUTH0_ISSUER_BASE_URL=${{ secrets.AUTH0_ISSUER_BASE_URL }}" >> .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
-          echo "CLOUDINARY_NAME=${{ secrets.CLOUDINARY_NAME }}" >> .env
-          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
-          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
-          echo "STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }}" >> .env
-          echo "STRIPE_ENDPOINT_SECRET=${{ secrets.STRIPE_ENDPOINT_SECRET }}" >> .env
 
+    - run: |
+        touch .env
+        echo "${{ secrets.PROD_ENV_FILE }}" .env
 
-    - name: Use secret values
-      run: |
-           echo "Using Auth0 issuer: ${{ secrets.AUTH0_ISSUER_BASE_URL }}"
-           echo "Using Stripe endpoint secret: ${{ secrets.STRIPE_ENDPOINT_SECRET }}"
 
 
 
